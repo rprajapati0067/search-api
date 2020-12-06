@@ -14,11 +14,12 @@ const (
 	apiKey = "GHT-iUolNrr1E3rV10fJHnRI4-hMnQgLCwMYHPD9Yr4"
 )
 
-func GetRestaurant(at string, cat string) (*domain.Data, *errors.RestError) {
+func getSearchData(at string, cat string) (*domain.Data, *errors.RestError) {
+
 	var target domain.Data
 	client := resty.New()
 
-	resp, err := client.R().SetResult(domain.Restaurant{}).ForceContentType("application/json").SetQueryParams(map[string]string{
+	resp, err := client.R().SetResult(domain.Common{}).ForceContentType("application/json").SetQueryParams(map[string]string{
 		"cat":    cat,
 		"at":     at,
 		"apiKey": apiKey,
@@ -33,7 +34,6 @@ func GetRestaurant(at string, cat string) (*domain.Data, *errors.RestError) {
 			Status:  400,
 			Error:   err.Error(),
 		}
-
 	}
 
 	unmarshalError := json.Unmarshal(resp.Body(), &target)
@@ -46,5 +46,19 @@ func GetRestaurant(at string, cat string) (*domain.Data, *errors.RestError) {
 		}
 	}
 	return &target, nil
+}
 
+func GetRestaurant(at string, cat string) (*domain.Data, *errors.RestError) {
+	result, _ := getSearchData(at, cat)
+	return result, nil
+}
+
+func GetTransport(at string, cat string) (*domain.Data, *errors.RestError) {
+	result, _ := getSearchData(at, cat)
+	return result, nil
+}
+
+func GetPetrolStation(at string, cat string) (*domain.Data, *errors.RestError) {
+	result, _ := getSearchData(at, cat)
+	return result, nil
 }

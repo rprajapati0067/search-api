@@ -11,12 +11,42 @@ import (
 )
 
 var (
-	sortedThree [3]domain.Restaurant
+	sortedThree [3]domain.Common
+	response    *domain.Response
+	apiResponse *domain.Data
+	apiErr      *errors.RestError
 )
 
-func GetRestaurantService(at string, cat string) (*domain.Response, *errors.RestError) {
-	var response domain.Response
-	apiResponse, apiErr := providers.GetRestaurant(at, cat)
+const (
+	searchRestaurant    = "restaurant"
+	searchTransport     = "transport"
+	searchPetrolStation = "petrol-station"
+)
+
+type Commons []domain.Common
+
+func (s Commons) Len() int {
+	return len(s)
+}
+
+func (s Commons) Less(i, j int) bool {
+	return s[i].Distance < s[j].Distance
+}
+
+func (s Commons) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func getSearchData(at string, cat string, searchData string) (*domain.Response, *errors.RestError) {
+
+	if searchData == searchRestaurant {
+		apiResponse, apiErr = providers.GetRestaurant(at, cat)
+	} else if searchData == searchTransport {
+		apiResponse, apiErr = providers.GetTransport(at, cat)
+	} else if searchData == searchPetrolStation {
+		apiResponse, apiErr = providers.GetPetrolStation(at, cat)
+	}
+
 	if apiErr != nil {
 		log.Println(fmt.Sprintf("error when trying to access api: %s", apiErr))
 		return nil, &errors.RestError{
@@ -25,12 +55,11 @@ func GetRestaurantService(at string, cat string) (*domain.Response, *errors.Rest
 			Error:   apiErr.Error,
 		}
 	}
-	nearestThreeRest := getNearestThreeRestaurant(apiResponse.Result.Items)
-	response.Restaurant = nearestThreeRest
-	return &response, nil
+	return response, nil
+
 }
 
-func getNearestThreeRestaurant(items Restaurants) *[3]domain.Restaurant {
+func getNearestThreeRestaurant(items Commons) *[3]domain.Common {
 	if items.Len() > 0 {
 		sort.Sort(items)
 
@@ -41,16 +70,29 @@ func getNearestThreeRestaurant(items Restaurants) *[3]domain.Restaurant {
 	return &sortedThree
 }
 
-type Restaurants []domain.Restaurant
+func GetRestaurantService(at string, cat string) (*domain.Response, *errors.RestError) {
+	response = new(domain.Response)
 
-func (s Restaurants) Len() int {
-	return len(s)
+	result, _ := getSearchData(at, cat, searchRestaurant)
+	nearestThreeRest := getNearestThreeRestaurant(apiResponse.Result.Items)
+	response.Restaurant = nearestThreeRest
+	return result, nil
 }
 
-func (s Restaurants) Less(i, j int) bool {
-	return s[i].Distance < s[j].Distance
+func GetTransportService(at string, cat string) (*domain.Response, *errors.RestError) {
+	response = new(domain.Response)
+
+	result, _ := getSearchData(at, cat, searchTransport)
+	nearestThreeRest := getNearestThreeRestaurant(apiResponse.Result.Items)
+	response.Transport = nearestThreeRest
+	return result, nil
 }
 
-func (s Restaurants) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
+func GetPetrolPumpService(at string, cat string) (*domain.Response, *errors.RestError) {
+	response = new(domain.Response)
+
+	result, _ := getSearchData(at, cat, searchPetrolStation)
+	nearestThreeRest := getNearestThreeRestaurant(apiResponse.Result.Items)
+	response.PetrolStation = nearestThreeRest
+	return result, nil
 }

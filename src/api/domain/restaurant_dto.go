@@ -1,6 +1,6 @@
 package domain
 
-type Restaurant struct {
+type Common struct {
 	Id            string       `json:"id"`
 	Distance      int          `json:"distance"`
 	Title         string       `json:"title"`

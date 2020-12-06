@@ -5,6 +5,6 @@ type Data struct {
 }
 
 type Result struct {
-	Next  string       `json:"next"`
-	Items []Restaurant `json:"items"`
+	Next  string   `json:"next"`
+	Items []Common `json:"items"`
 }

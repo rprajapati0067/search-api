@@ -4,6 +4,8 @@ import "github.com/rprajapati0067/search-api/src/api/controllers"
 
 func mapsUrls() {
 	router.GET("/ping", controllers.Ping)
-	router.GET("/search", controllers.GetRestaurant)
+	router.GET("/searchrestaturant", controllers.GetRestaurant)
+	router.GET("/searchtransport", controllers.GetTransport)
+	router.GET("/searchpetrolststion", controllers.GetPetrolPStation)
 
 }
