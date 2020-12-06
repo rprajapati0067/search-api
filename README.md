@@ -5,7 +5,9 @@
 
 # TODO
   1. Have to call API concurrently.
-  2. Have to write test cases.
+  2. Enable Caching of APIS.
+  3. Have to write test cases.
+  4. Package and deliver the final outcome as a Docker container.
 
 # Steps to Run API
 Open cmd in the project directory
