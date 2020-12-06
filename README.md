@@ -1,9 +1,10 @@
 # Search-api
 1. Restaurant API implemented with 3 nearest restaurant.
-
-// TODO
 2. Parking Spots API implemented with 3 nearest spots
 3. Charging Stations API implemented with 3 nearest spots
+
+# TODO
+  Have to call API concurrently
 
 # Steps to Run API
 Open cmd in the project directory
