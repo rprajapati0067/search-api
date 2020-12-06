@@ -1,4 +1,4 @@
-# search-api
+# Search-api
 1. Restaurant API implemented with 3 nearest restaurant.
 
 // TODO
