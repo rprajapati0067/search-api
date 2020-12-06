@@ -4,7 +4,8 @@
 3. Charging Stations API implemented with 3 nearest spots
 
 # TODO
-  Have to call API concurrently
+  1. Have to call API concurrently.
+  2. Have to write test cases.
 
 # Steps to Run API
 Open cmd in the project directory
